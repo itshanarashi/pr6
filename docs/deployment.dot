@@ -1,0 +1,17 @@
+digraph D {
+  graph [rankdir=LR, bgcolor="white", pad=0.3, nodesep=0.7, ranksep=0.8];
+  node [shape=box, style="rounded,filled", fontname="DejaVu Sans", fontsize=11, margin="0.18,0.12"];
+  browser [label="Браузер\nhttp://localhost", fillcolor="#e0f2fe"];
+  nginx [label="Nginx\nпорт 80\nproxy + static/media", fillcolor="#dcfce7"];
+  gunicorn [label="Gunicorn\n3 workers\n0.0.0.0:8000", fillcolor="#fef3c7"];
+  django [label="Django VoltMarket\nWSGI", fillcolor="#fef3c7"];
+  postgres [label="PostgreSQL 16\nvoltmarket", fillcolor="#ede9fe"];
+  static [label="static_volume\n/static/", fillcolor="#f1f5f9"];
+  media [label="./media\n/media/", fillcolor="#f1f5f9"];
+  browser -> nginx [label="HTTP"];
+  nginx -> gunicorn [label="proxy_pass"];
+  gunicorn -> django;
+  django -> postgres [label="TCP 5432"];
+  nginx -> static [label="alias"];
+  nginx -> media [label="alias"];
+}

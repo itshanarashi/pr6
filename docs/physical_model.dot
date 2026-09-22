@@ -1,0 +1,25 @@
+digraph G {
+  graph [rankdir=LR, bgcolor="white", pad=0.25, nodesep=0.35, ranksep=0.55];
+  node [shape=plain, fontname="DejaVu Sans"];
+  edge [color="#64748b", arrowsize=0.7];
+
+  category [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#dbeafe"><B>shop_category</B></TD></TR><TR><TD ALIGN="LEFT">PK id BIGINT</TD></TR><TR><TD ALIGN="LEFT">name VARCHAR(100) UNIQUE</TD></TR><TR><TD ALIGN="LEFT">description TEXT</TD></TR><TR><TD ALIGN="LEFT">created_at TIMESTAMPTZ</TD></TR></TABLE>>];
+  brand [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#dbeafe"><B>shop_brand</B></TD></TR><TR><TD ALIGN="LEFT">PK id BIGINT</TD></TR><TR><TD ALIGN="LEFT">name VARCHAR(100) UNIQUE</TD></TR><TR><TD ALIGN="LEFT">country VARCHAR(100)</TD></TR><TR><TD ALIGN="LEFT">website VARCHAR(200)</TD></TR><TR><TD ALIGN="LEFT">description TEXT</TD></TR><TR><TD ALIGN="LEFT">logo VARCHAR(100)</TD></TR></TABLE>>];
+  supplier [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#dbeafe"><B>shop_supplier</B></TD></TR><TR><TD ALIGN="LEFT">PK id BIGINT</TD></TR><TR><TD ALIGN="LEFT">name VARCHAR(150)</TD></TR><TR><TD ALIGN="LEFT">contact_person VARCHAR(120)</TD></TR><TR><TD ALIGN="LEFT">phone VARCHAR(30)</TD></TR><TR><TD ALIGN="LEFT">email VARCHAR(254)</TD></TR><TR><TD ALIGN="LEFT">address VARCHAR(255)</TD></TR></TABLE>>];
+  product [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#fde68a"><B>shop_product</B></TD></TR><TR><TD ALIGN="LEFT">PK id BIGINT</TD></TR><TR><TD ALIGN="LEFT">FK category_id BIGINT</TD></TR><TR><TD ALIGN="LEFT">FK brand_id BIGINT</TD></TR><TR><TD ALIGN="LEFT">FK supplier_id BIGINT NULL</TD></TR><TR><TD ALIGN="LEFT">name VARCHAR(150)</TD></TR><TR><TD ALIGN="LEFT">price NUMERIC(10,2)</TD></TR><TR><TD ALIGN="LEFT">stock INTEGER</TD></TR><TR><TD ALIGN="LEFT">description TEXT</TD></TR><TR><TD ALIGN="LEFT">image VARCHAR(100)</TD></TR><TR><TD ALIGN="LEFT">created_at TIMESTAMPTZ</TD></TR></TABLE>>];
+  customer [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#dbeafe"><B>shop_customer</B></TD></TR><TR><TD ALIGN="LEFT">PK id BIGINT</TD></TR><TR><TD ALIGN="LEFT">full_name VARCHAR(150)</TD></TR><TR><TD ALIGN="LEFT">phone VARCHAR(30)</TD></TR><TR><TD ALIGN="LEFT">email VARCHAR(254) UNIQUE</TD></TR><TR><TD ALIGN="LEFT">address VARCHAR(255)</TD></TR><TR><TD ALIGN="LEFT">registered_at TIMESTAMPTZ</TD></TR></TABLE>>];
+  user [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#e2e8f0"><B>auth_user</B></TD></TR><TR><TD ALIGN="LEFT">PK id INTEGER</TD></TR><TR><TD ALIGN="LEFT">username VARCHAR(150)</TD></TR><TR><TD ALIGN="LEFT">email VARCHAR(254)</TD></TR><TR><TD ALIGN="LEFT">is_staff BOOLEAN</TD></TR></TABLE>>];
+  order [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#fde68a"><B>shop_order</B></TD></TR><TR><TD ALIGN="LEFT">PK id BIGINT</TD></TR><TR><TD ALIGN="LEFT">FK user_id INTEGER NULL</TD></TR><TR><TD ALIGN="LEFT">FK customer_id BIGINT</TD></TR><TR><TD ALIGN="LEFT">created_at TIMESTAMPTZ</TD></TR><TR><TD ALIGN="LEFT">status VARCHAR(20)</TD></TR><TR><TD ALIGN="LEFT">total_amount NUMERIC(12,2)</TD></TR><TR><TD ALIGN="LEFT">delivery_address VARCHAR(255)</TD></TR><TR><TD ALIGN="LEFT">delivery_type VARCHAR(20)</TD></TR><TR><TD ALIGN="LEFT">comment TEXT</TD></TR></TABLE>>];
+  item [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#fde68a"><B>shop_orderitem</B></TD></TR><TR><TD ALIGN="LEFT">PK id BIGINT</TD></TR><TR><TD ALIGN="LEFT">FK order_id BIGINT</TD></TR><TR><TD ALIGN="LEFT">FK product_id BIGINT</TD></TR><TR><TD ALIGN="LEFT">quantity INTEGER</TD></TR><TR><TD ALIGN="LEFT">price NUMERIC(10,2)</TD></TR></TABLE>>];
+  review [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#fde68a"><B>shop_review</B></TD></TR><TR><TD ALIGN="LEFT">PK id BIGINT</TD></TR><TR><TD ALIGN="LEFT">FK product_id BIGINT</TD></TR><TR><TD ALIGN="LEFT">FK customer_id BIGINT</TD></TR><TR><TD ALIGN="LEFT">rating SMALLINT</TD></TR><TR><TD ALIGN="LEFT">text TEXT</TD></TR><TR><TD ALIGN="LEFT">created_at TIMESTAMPTZ</TD></TR></TABLE>>];
+
+  category -> product;
+  brand -> product;
+  supplier -> product;
+  user -> order;
+  customer -> order;
+  order -> item;
+  product -> item;
+  product -> review;
+  customer -> review;
+}

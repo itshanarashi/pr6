@@ -1,0 +1,14 @@
+{% extends 'shop/base.html' %}
+{% block title %}Регистрация — VoltMarket{% endblock %}
+{% block content %}
+<section class="auth-card">
+    <p class="eyebrow">ЛИЧНЫЙ КАБИНЕТ</p>
+    <h1>Регистрация</h1>
+    <form method="post" class="auth-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn" type="submit">Создать аккаунт</button>
+    </form>
+    <p class="auth-note">Уже зарегистрированы? <a href="{% url 'shop:login' %}">Войти</a></p>
+</section>
+{% endblock %}

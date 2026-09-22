@@ -1,0 +1,22 @@
+{% extends 'shop/base.html' %}
+{% block title %}Оформление заказа — VoltMarket{% endblock %}
+{% block content %}
+<a class="back" href="{% url 'basket:detail' %}">← Вернуться в корзину</a>
+<div class="checkout-grid">
+    <section class="form-card">
+        <span class="eyebrow">ОФОРМЛЕНИЕ</span>
+        <h1>Создание заказа</h1>
+        <p>Заказ будет привязан к аккаунту <strong>{{ user.username }}</strong>.</p>
+        <form method="post" class="auth-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn" type="submit">Подтвердить заказ</button>
+        </form>
+    </section>
+    <aside class="panel order-preview">
+        <h2>Состав заказа</h2>
+        {% for item in basket %}<p>{{ item.product.name }} × {{ item.quantity }} <strong>{{ item.total_price }} ₽</strong></p>{% endfor %}
+        <hr><p class="price">Итого: {{ basket.total_price }} ₽</p>
+    </aside>
+</div>
+{% endblock %}

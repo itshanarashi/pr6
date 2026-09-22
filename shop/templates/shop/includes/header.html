@@ -1,0 +1,37 @@
+{% load static %}
+<header class="site-header">
+    <div class="container header-row">
+        <a class="logo" href="{% url 'shop:home' %}" aria-label="VoltMarket — главная">
+            <img src="{% static 'img/logo-mark.svg' %}" alt="" width="30" height="30">
+            VOLT<span>MARKET</span>
+        </a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Меню</button>
+        <nav id="main-nav" class="main-nav">
+            <a href="{% url 'shop:home' %}">Главная</a>
+            <a href="{% url 'shop:about' %}">О компании</a>
+            <a href="{% url 'shop:product_list' %}">Товары</a>
+            <a href="{% url 'shop:category_list' %}">Категории</a>
+            <a href="{% url 'shop:brand_list' %}">Бренды</a>
+            <a href="{% url 'basket:detail' %}">Корзина</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'shop:order_list' %}">Мои заказы</a>
+                <a href="{% url 'shop:review_list' %}">Отзывы</a>
+            {% endif %}
+            {% if user.is_staff %}
+                <a href="{% url 'shop:api-root' %}">API</a>
+            {% endif %}
+        </nav>
+        <div class="account-actions">
+            {% if user.is_authenticated %}
+                <span class="user-badge">{{ user.username }}{% if user.is_staff %} · сотрудник{% endif %}</span>
+                <form method="post" action="{% url 'shop:logout' %}">
+                    {% csrf_token %}
+                    <button class="header-btn" type="submit">Выйти</button>
+                </form>
+            {% else %}
+                <a class="header-link" href="{% url 'shop:login' %}">Авторизация</a>
+                <a class="header-btn" href="{% url 'shop:register' %}">Регистрация</a>
+            {% endif %}
+        </div>
+    </div>
+</header>

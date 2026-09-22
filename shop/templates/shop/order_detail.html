@@ -1,0 +1,15 @@
+{% extends 'shop/base.html' %}
+{% block content %}
+<a class="back" href="{% url 'shop:order_list' %}">← К заказам</a>
+<div class="detail">
+    <span class="eyebrow">ЗАКАЗ</span><h1>Заказ №{{ order.pk }}</h1>
+    <p><strong>Аккаунт:</strong> {{ order.user.username|default:'не привязан' }}</p>
+    <p><strong>Покупатель:</strong> {{ order.customer.full_name }}</p>
+    <p><strong>Статус:</strong> {{ order.get_status_display }}</p>
+    <p><strong>Способ получения:</strong> {{ order.get_delivery_type_display }}</p>
+    {% if order.delivery_address %}<p><strong>Адрес:</strong> {{ order.delivery_address }}</p>{% endif %}
+    {% if order.comment %}<p><strong>Комментарий:</strong> {{ order.comment }}</p>{% endif %}
+    <p><strong>Сумма:</strong> {{ order.total_amount }} ₽</p>
+    <div class="table-wrap"><table><thead><tr><th>Товар</th><th>Количество</th><th>Цена</th></tr></thead><tbody>{% for item in order.items.all %}<tr><td>{{ item.product.name }}</td><td>{{ item.quantity }}</td><td>{{ item.price }} ₽</td></tr>{% endfor %}</tbody></table></div>
+</div>
+{% endblock %}

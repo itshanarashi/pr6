@@ -1,0 +1,23 @@
+digraph G {
+  graph [rankdir=LR, bgcolor="white", pad=0.3, nodesep=0.55, ranksep=0.8];
+  node [shape=box, style="rounded,filled", fillcolor="#f3f6fb", fontname="DejaVu Sans", fontsize=11, margin="0.18,0.10"];
+  edge [fontname="DejaVu Sans", fontsize=9, color="#475569"];
+  Category [label="Категория"];
+  Brand [label="Бренд"];
+  Supplier [label="Поставщик"];
+  Product [label="Товар"];
+  Customer [label="Покупатель"];
+  User [label="Пользователь"];
+  Order [label="Заказ"];
+  OrderItem [label="Позиция заказа"];
+  Review [label="Отзыв"];
+  Category -> Product [label="1 : M"];
+  Brand -> Product [label="1 : M"];
+  Supplier -> Product [label="1 : M"];
+  User -> Order [label="1 : M"];
+  Customer -> Order [label="1 : M"];
+  Order -> OrderItem [label="1 : M"];
+  Product -> OrderItem [label="1 : M"];
+  Product -> Review [label="1 : M"];
+  Customer -> Review [label="1 : M"];
+}

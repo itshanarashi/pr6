@@ -1,0 +1,29 @@
+{% load static %}
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}VoltMarket{% endblock %}</title>
+    <link rel="icon" href="{% static 'img/logo-mark.svg' %}" type="image/svg+xml">
+    <link rel="stylesheet" href="{% static 'css/site.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    {% include 'shop/includes/header.html' %}
+
+    <main class="container page-content">
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}<p class="panel">{{ message }}</p>{% endfor %}
+            </div>
+        {% endif %}
+        {% block content %}{% endblock %}
+    </main>
+
+    {% include 'shop/includes/footer.html' %}
+
+    <script src="{% static 'js/site.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

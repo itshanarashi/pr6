@@ -1,0 +1,30 @@
+{% extends 'shop/base.html' %}
+{% block content %}
+<a class="back" href="{% url 'shop:product_list' %}">← К каталогу</a>
+<div class="product-detail">
+    {% if product.image %}<img src="{{ product.image.url }}" alt="{{ product.name }}">{% endif %}
+    <div>
+        <span class="eyebrow">{{ product.category.name }} · {{ product.brand.name }}</span>
+        <h1>{{ product.name }}</h1>
+        <p>{{ product.description }}</p>
+        <p class="price big">{{ product.price }} ₽</p>
+        <p><strong>Остаток:</strong> {{ product.stock }} шт.</p>
+        <p><strong>Поставщик:</strong> {{ product.supplier|default:'не указан' }}</p>
+        {% if product.stock > 0 %}
+            {% if user.is_authenticated %}
+            <form class="add-cart-form" method="post" action="{% url 'basket:add' product.pk %}">
+                {% csrf_token %}
+                <label>Количество <input type="number" name="quantity" value="1" min="1" max="{{ product.stock }}"></label>
+                <input type="hidden" name="override" value="">
+                <button class="btn" type="submit">Добавить в корзину</button>
+            </form>
+            {% else %}
+            <p class="panel compact">Чтобы добавить товар в корзину, <a href="{% url 'shop:login' %}?next={{ request.path }}">авторизуйтесь</a>.</p>
+            {% endif %}
+        {% endif %}
+        {% if user.is_staff %}
+        <div class="actions"><a class="btn secondary" href="{% url 'shop:product_edit' product.pk %}">Изменить</a><a class="btn danger" href="{% url 'shop:product_delete' product.pk %}">Удалить</a></div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

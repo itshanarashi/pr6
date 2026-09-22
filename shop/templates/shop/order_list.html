@@ -1,0 +1,9 @@
+{% extends 'shop/base.html' %}
+{% block content %}
+<div class="page-head"><div><span class="eyebrow">ИСТОРИЯ ПОКУПОК</span><h1>{% if user.is_staff %}Заказы{% else %}Мои заказы{% endif %}</h1></div><a class="btn" href="{% url 'shop:product_list' %}">В каталог</a></div>
+{% if orders %}
+<div class="table-wrap"><table><thead><tr><th>№</th><th>Пользователь</th><th>Дата</th><th>Получение</th><th>Статус</th><th>Сумма</th></tr></thead><tbody>{% for order in orders %}<tr><td><a href="{% url 'shop:order_detail' order.pk %}">№{{ order.pk }}</a></td><td>{{ order.user.username|default:order.customer.full_name }}</td><td>{{ order.created_at|date:'d.m.Y H:i' }}</td><td>{{ order.get_delivery_type_display }}</td><td>{{ order.get_status_display }}</td><td>{{ order.total_amount }} ₽</td></tr>{% endfor %}</tbody></table></div>
+{% else %}
+<div class="panel empty-state"><h2>Заказов пока нет</h2><p>После оформления корзины заказ появится на этой странице.</p></div>
+{% endif %}
+{% endblock %}
